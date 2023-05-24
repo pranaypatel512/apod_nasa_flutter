@@ -1,16 +1,35 @@
-# apod_nasa_flutter
+# APODNasa Flutter app
 
-A new Flutter project.
+### About
 
-## Getting Started
+App related to show [Astronomy Picture of the Day(APOD)](http://apod.nasa.gov/apod/astropix.html)
+for last seven days. An app to show media listing using [APOD](https://api.nasa.gov/) api.
 
-This project is a starting point for a Flutter application.
+### Run a project
 
-A few resources to get you started if this is your first Flutter project:
+- Go to [https://api.nasa.gov/#signUp](https://api.nasa.gov/) and create/request new api key.
+- Create `.env` file at root of the project and put generated api key with property name `api_key='[apikey]` . Now sync project and
+  run the app.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 📷 Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+### Contribute
+
+- If you want to contribute to this library, you're always welcome!
+See [Contributing Guidelines](CONTRIBUTING.md).
+
+### :envelope: Get in touch!
+
+[![Medium](https://img.shields.io/badge/-medium-gray?style=for-the-badge&logo=medium)](https://medium.com/@pranaypatel)
+[![Twitter](https://img.shields.io/badge/-twitter-gray?style=for-the-badge&logo=twitter)](https://twitter.com/pranatpatel_)
+[![LinkedIn](https://img.shields.io/badge/-linkedin-gray?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/pranaypatel512/)
+
+
+### Find this project useful ? ❤️
+
+- Support it by clicking the ⭐️ button on the upper right of this page. ✌️
+
+### License
+
+- See [License](https://github.com/pranaypatel512/apod_nasa_flutter/blob/main/LICENSE)
