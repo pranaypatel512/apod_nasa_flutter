@@ -1,6 +1,7 @@
 import 'package:apod_nasa_flutter/model/media_response.dart';
 import 'package:apod_nasa_flutter/viewmodel/media_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -54,14 +55,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Colors.white,
           title: Text(widget.title),
         ),
         body: Consumer<MediaViewModel>(
           builder: (context, value, child) {
             if (value.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                widthFactor: double.infinity,
+                child: Lottie.network(
+                    'https://assets6.lottiefiles.com/packages/lf20_2kHQhR.json'),
               );
             }
             //TODO: not getting list update call and continues showing progress bar
@@ -86,20 +89,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                         const SizedBox(height: 4.0),
-                        Text(
-                          mediaItem.date ?? '',
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        const SizedBox(height: 4.0),
-                        Text(
-                          mediaItem.copyright != null
-                              ? "©${mediaItem.copyright}"
-                              : "",
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              mediaItem.date ?? '',
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                            ),
+                            const SizedBox(width: 4.0),
+                            Text(
+                              mediaItem.copyright != null
+                                  ? "©${mediaItem.copyright}"
+                                  : "",
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                              ),
+                            )
+                          ],
                         ),
                       ],
                     ),
