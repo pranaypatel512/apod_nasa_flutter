@@ -7,7 +7,7 @@ class MediaViewModel extends ChangeNotifier {
   bool isLoading = false;
   List<MediaListResponse> _mediaItems = [];
   List<MediaListResponse> get mediaItems => _mediaItems;
-
+  MediaListResponse? selectedItem;
   Future<void> loadAllMedia() async {
     isLoading = true;
     notifyListeners();
