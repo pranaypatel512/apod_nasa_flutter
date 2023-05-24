@@ -32,4 +32,4 @@ See [Contributing Guidelines](CONTRIBUTING.md).
 
 ### License
 
-- See [License](https://github.com/pranaypatel512/apod_nasa_flutter/blob/main/LICENSE)
+- See [License](https://github.com/pranaypatel512/apod_nasa_flutter/blob/main/LICENSE.md)
