@@ -45,6 +45,6 @@ class MediaListResponse {
 
 extension FinalImageUrl on MediaListResponse {
   String? get finalUrl {
-    return hdurl;
+    return url;
   }
 }

@@ -1,8 +1,8 @@
 import 'package:apod_nasa_flutter/model/media_response.dart';
 import 'package:apod_nasa_flutter/viewmodel/media_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:progressive_image/progressive_image.dart';
 import 'package:provider/provider.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class MediaDetailsScreen extends StatefulWidget {
   const MediaDetailsScreen({super.key});
@@ -27,7 +27,7 @@ class _MediaDetailsScreenState extends State<MediaDetailsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _displayMedia(mediaItem!.finalUrl),
+                _displayMedia(mediaItem!.finalUrl, mediaItem.url),
                 const SizedBox(height: 8.0),
                 Text(
                   mediaItem.title ?? '',
@@ -63,23 +63,23 @@ class _MediaDetailsScreenState extends State<MediaDetailsScreen> {
   }
 }
 
-Widget _displayMedia(String? finalUrl) {
-  if (finalUrl == null) {
-    //return Image.asset('assets/images/picture.png');
+Widget _displayMedia(String? finalUrl, String? url) {
+  if (finalUrl != null && url != null) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: FadeInImage.assetNetwork(
-        placeholder: 'assets/images/picture.png',
-        image: 'assets/images/picture.png',
+      child: ProgressiveImage(
+        placeholder: const AssetImage('assets/images/picture.png'),
+        thumbnail: NetworkImage(url),
+        image: NetworkImage(finalUrl),
+        height: 300,
+        width: 500,
       ),
     );
   } else {
+    //return Image.asset('assets/images/picture.png');
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: FadeInImage.memoryNetwork(
-        placeholder: kTransparentImage,
-        image: finalUrl,
-      ),
+      child: Image.asset("assets/images/picture.png"),
     );
   }
 }

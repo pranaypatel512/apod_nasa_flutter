@@ -3,9 +3,9 @@ import 'package:apod_nasa_flutter/viewmodel/media_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progressive_image/progressive_image.dart';
 
 import 'media_details.dart';
 
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          _displayMedia(mediaItem.finalUrl),
+                          _displayMedia(mediaItem.finalUrl, mediaItem.url),
                           const SizedBox(height: 8.0),
                           Text(
                             mediaItem.title ?? '',
@@ -97,13 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           Row(
                             children: [
                               Expanded(
+                                flex: 0,
                                 child: Text(
                                   mediaItem.date ?? '',
                                   style: const TextStyle(
                                     fontSize: 14.0,
                                   ),
                                 ),
-                                flex: 0,
                               ),
                               const SizedBox(width: 4.0),
                               Expanded(
@@ -131,20 +131,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-Widget _displayMedia(String? finalUrl) {
-  if (finalUrl == null) {
+Widget _displayMedia(String? finalUrl, String? url) {
+  if (finalUrl != null && url != null) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(12),
+      child: ProgressiveImage(
+        placeholder: const AssetImage('assets/images/picture.png'),
+        thumbnail: NetworkImage(url),
+        image: NetworkImage(finalUrl),
+        height: 300,
+        width: 500,
+      ),
+    );
+  } else {
     //return Image.asset('assets/images/picture.png');
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: Image.asset("assets/images/picture.png"),
-    );
-  } else {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: FadeInImage.memoryNetwork(
-        placeholder: kTransparentImage,
-        image: finalUrl,
-      ),
     );
   }
 }
