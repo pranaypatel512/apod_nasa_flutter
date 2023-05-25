@@ -1,8 +1,8 @@
 import 'package:apod_nasa_flutter/model/media_response.dart';
-import 'package:apod_nasa_flutter/viewmodel/media_view_model.dart';
+import 'package:apod_nasa_flutter/provider/home_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progressive_image/progressive_image.dart';
@@ -21,10 +21,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ListenableProvider(create: (_) => MediaViewModel()),
-      ],
+    return ProviderScope(
       child: MaterialApp.router(
         routerConfig: _goRouter,
         title: 'APODNasaFlutter',
@@ -36,97 +33,94 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<MediaViewModel>(context, listen: false).loadAllMedia();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Provider.of<MediaViewModel>(context, listen: false).loadAllMedia();
+    // });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(homeListProvider).isLoading;
+    final media = ref.watch(homeListProvider).list;
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
         ),
-        body: Consumer<MediaViewModel>(
-          builder: (context, value, child) {
-            if (value.isLoading) {
-              return Scaffold(
+        body: isLoading
+            ? Scaffold(
                 backgroundColor: Colors.white,
                 body: Lottie.network(
                     'https://assets6.lottiefiles.com/packages/lf20_2kHQhR.json'),
-              );
-            }
-            final media = value.mediaItems;
-            return ListView.builder(
-              itemCount: media.length,
-              itemBuilder: (context, index) {
-                final mediaItem = media[index];
-                return GestureDetector(
-                  onTap: () =>
-                      {value.selectedItem = mediaItem, context.go("/details")},
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          _displayMedia(mediaItem.finalUrl, mediaItem.url),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            mediaItem.title ?? '',
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
+              )
+            : ListView.builder(
+                itemCount: media.length,
+                itemBuilder: (context, index) {
+                  final mediaItem = media[index];
+                  return GestureDetector(
+                    onTap: () => {
+                      //homeListProvider. = mediaItem, context.go("/details")
+                    },
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _displayMedia(mediaItem.finalUrl, mediaItem.url),
+                            const SizedBox(height: 8.0),
+                            Text(
+                              mediaItem.title ?? '',
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 4.0),
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 0,
-                                child: Text(
-                                  mediaItem.date ?? '',
+                            const SizedBox(height: 4.0),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 0,
+                                  child: Text(
+                                    mediaItem.date ?? '',
+                                    style: const TextStyle(
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 4.0),
+                                Expanded(
+                                    child: Text(
+                                  mediaItem.copyright != null
+                                      ? "©${mediaItem.copyright}"
+                                      : "",
                                   style: const TextStyle(
                                     fontSize: 14.0,
                                   ),
-                                ),
-                              ),
-                              const SizedBox(width: 4.0),
-                              Expanded(
-                                  child: Text(
-                                mediaItem.copyright != null
-                                    ? "©${mediaItem.copyright}"
-                                    : "",
-                                style: const TextStyle(
-                                  fontSize: 14.0,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ))
-                            ],
-                          ),
-                        ],
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ))
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            );
-          },
-        ));
+                  );
+                },
+              ));
   }
 }
 
