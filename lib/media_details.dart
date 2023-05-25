@@ -18,45 +18,61 @@ class _MediaDetailsScreenState extends State<MediaDetailsScreen> {
         Provider.of<MediaViewModel>(context, listen: false).selectedItem;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
           title: Text(mediaItem?.title ?? ""),
         ),
         body: Card(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _displayMedia(mediaItem!.finalUrl, mediaItem.url),
-                const SizedBox(height: 8.0),
-                Text(
-                  mediaItem.title ?? '',
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4.0),
-                Row(
-                  children: [
-                    Text(
-                      mediaItem.date ?? '',
-                      style: const TextStyle(
-                        fontSize: 14.0,
-                      ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _displayMedia(mediaItem!.finalUrl, mediaItem.url),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    mediaItem.title ?? '',
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(width: 4.0),
-                    Text(
-                      mediaItem.copyright != null
-                          ? "©${mediaItem.copyright}"
-                          : "",
-                      style: const TextStyle(
-                        fontSize: 14.0,
+                  ),
+                  const SizedBox(height: 4.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 0,
+                        child: Text(
+                          mediaItem.date ?? '',
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                          ),
+                        ),
                       ),
-                    )
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 4.0),
+                      Expanded(
+                          child: Text(
+                        mediaItem.copyright != null
+                            ? "©${mediaItem.copyright}"
+                            : "",
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ))
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
+                  Expanded(
+                      flex: 0,
+                      child: Text(
+                        mediaItem.explanation ?? '',
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                        ),
+                      ))
+                ],
+              ),
             ),
           ),
         ));
@@ -68,11 +84,11 @@ Widget _displayMedia(String? finalUrl, String? url) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: ProgressiveImage(
-        placeholder: const AssetImage('assets/images/picture.png'),
+        placeholder: const AssetImage('assets/images/image_place_holder.png'),
         thumbnail: NetworkImage(url),
         image: NetworkImage(finalUrl),
-        height: 300,
-        width: 500,
+        height: 220,
+        width: double.infinity,
       ),
     );
   } else {

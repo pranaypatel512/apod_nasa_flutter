@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: _goRouter,
         title: 'APODNasaFlutter',
-        theme: FlexThemeData.light(scheme: FlexScheme.bigStone),
+        theme: FlexThemeData.light(scheme: FlexScheme.brandBlue),
         // The Mandy red, dark theme.
-        darkTheme: FlexThemeData.dark(scheme: FlexScheme.bigStone),
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.brandBlue),
       ),
     );
   }
@@ -135,18 +135,22 @@ Widget _displayMedia(String? finalUrl, String? url) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
       child: ProgressiveImage(
-        placeholder: const AssetImage('assets/images/picture.png'),
+        placeholder: const AssetImage('assets/images/image_place_holder.png'),
         thumbnail: NetworkImage(url),
         image: NetworkImage(finalUrl),
-        height: 300,
-        width: 500,
+        height: 220,
+        width: double.infinity,
       ),
     );
   } else {
     //return Image.asset('assets/images/picture.png');
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset("assets/images/picture.png"),
+      child: Image.asset(
+        "assets/images/picture.png",
+        height: 220,
+        width: double.infinity,
+      ),
     );
   }
 }
