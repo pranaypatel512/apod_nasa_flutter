@@ -41,6 +41,7 @@ dependencies:
   lottie: ^2.3.2
   go_router: ^7.1.1
   progressive_image: ^2.0.1
+  flex_color_scheme: ^7.1.2
   
 
 dev_dependencies:

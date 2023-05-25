@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progressive_image/progressive_image.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 import 'media_details.dart';
 
@@ -27,10 +28,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         routerConfig: _goRouter,
         title: 'APODNasaFlutter',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: FlexThemeData.light(scheme: FlexScheme.bigStone),
+        // The Mandy red, dark theme.
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.bigStone),
       ),
     );
   }
@@ -58,7 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
         ),
         body: Consumer<MediaViewModel>(
