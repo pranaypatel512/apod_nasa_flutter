@@ -27,7 +27,7 @@ for last seven days. An app to show media listing using [APOD](https://api.nasa.
 
 APODNasa Flutter app |
 :-: | 
-<image src='https://github.com/pranaypatel512/apod_nasa_flutter/blob/develop/APODNasaFlutterApp.gif' width="200"/> | 
+<image src='https://github.com/pranaypatel512/apod_nasa_flutter/blob/develop/APODNasaFlutterApp.gif' width="300"/> | 
 
 ### Contribute
 
