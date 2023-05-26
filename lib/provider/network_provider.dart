@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final dioInstanceProvider = Provider<Dio>((ref) {
+part 'network_provider.g.dart';
+
+@riverpod
+Dio dio(DioRef ref) {
   return Dio();
-});
+}
