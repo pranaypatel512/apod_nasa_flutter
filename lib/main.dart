@@ -44,14 +44,6 @@ class MyHomePage extends ConsumerStatefulWidget {
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
-  void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   Provider.of<MediaViewModel>(context, listen: false).loadAllMedia();
-    // });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final isLoading = ref.watch(homeListProvider).isLoading;
     final media = ref.watch(homeListProvider).list;
@@ -70,9 +62,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                 itemBuilder: (context, index) {
                   final mediaItem = media[index];
                   return GestureDetector(
-                    onTap: () => {
-                      //homeListProvider. = mediaItem, context.go("/details")
-                    },
+                    onTap: () => {context.goNamed("details", extra: mediaItem)},
                     child: Card(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -159,9 +149,14 @@ final GoRouter _goRouter = GoRouter(routes: <RouteBase>[
       },
       routes: <RouteBase>[
         GoRoute(
+            name: "details",
             path: "details",
-            builder: (context, state) {
-              return const MediaDetailsScreen();
+            pageBuilder: (context, state) {
+              final mediaItem = state.extra as MediaListResponse?;
+              return MaterialPage(
+                  child: MediaDetailsScreen(
+                mediaItem: mediaItem,
+              ));
             })
       ])
 ]);
